@@ -8,6 +8,17 @@ const StudentCard: React.FC = () => {
     const handleButton = () => {
         router.push("/edit");
     };
+
+    const studentDataString = localStorage.getItem("student");
+
+    const studentData = studentDataString ? JSON.parse(studentDataString) : {};
+    const {
+        name = "Not name",
+        surname = "Not surname",
+        year = "Not year",
+        portfolio = "Not portfolio"
+    } = studentData;
+
     return (
         <div className="container mx-auto my-3">
             <div className="flex justify-center">
@@ -18,10 +29,9 @@ const StudentCard: React.FC = () => {
                         alt="Card image"
                     />
                     <div className="px-6 py-4">
-                        <div className="font-bold text-xl mb-2">Заголовок</div>
-                        <p className="text-gray-700 text-base">
-                            Описание карточки.
-                        </p>
+                        <div className="font-bold text-xl mb-2">{`${name} ${surname}`}</div>
+                        <p className="text-gray-700 text-base">{year}</p>
+                        <p className="text-gray-700 text-base">{portfolio}</p>
                         <div className="flex justify-between">
                             <a
                                 href="#"

@@ -6,10 +6,24 @@ import TextField from "@/components/TextField";
 
 interface IFormData {
     name: string;
+    surname: string;
+    year: string;
+    portfolio: string;
 }
 
 const StudentForm: React.FC = () => {
-    const [formData, setFormData] = React.useState<IFormData>({ name: "" });
+    const studentDataString = localStorage.getItem("student");
+
+    const studentData = studentDataString
+        ? JSON.parse(studentDataString)
+        : {
+              name: "",
+              surname: "",
+              year: "",
+              portfolio: ""
+          };
+
+    const [formData, setFormData] = React.useState<IFormData>(studentData);
 
     const router = useRouter();
 
@@ -21,6 +35,7 @@ const StudentForm: React.FC = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formData);
+        localStorage.setItem("student", JSON.stringify(formData));
         router.push("/");
     };
 
@@ -37,6 +52,28 @@ const StudentForm: React.FC = () => {
                             onChange={handleChange}
                             error="test"
                         />
+                        <TextField
+                            name="surname"
+                            label="Student surname"
+                            value={formData.surname}
+                            onChange={handleChange}
+                            error="test"
+                        />
+                        <TextField
+                            name="year"
+                            label="Student year"
+                            value={formData.year}
+                            onChange={handleChange}
+                            error="test"
+                        />
+                        <TextField
+                            name="portfolio"
+                            label="Student portfolio"
+                            value={formData.portfolio}
+                            onChange={handleChange}
+                            error="test"
+                        />
+
                         <button className="text-blue-500">Save</button>
                     </form>
                 </div>
