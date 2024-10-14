@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
+import Image from "next/image";
 
 interface IFormData {
     name: string;
@@ -25,8 +26,6 @@ const StudentForm: React.FC = () => {
     useEffect(() => {
         const studentDataString = localStorage.getItem("student");
         if (studentDataString) setFormData(JSON.parse(studentDataString));
-        console.log("formData: ", formData);
-        console.log("studentDataString: ", studentDataString);
     }, []);
 
     const handleChange = useCallback(
@@ -36,11 +35,11 @@ const StudentForm: React.FC = () => {
         []
     );
 
-    const generateAvatarUrl = (): void => {
+    const generateAvatarUrl = useCallback((): void => {
         const seed = Math.random().toString(36).substring(2, 10);
         const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
         setFormData((prevState) => ({ ...prevState, avatar: avatarUrl }));
-    };
+    }, []);
 
     const handleSubmit = useCallback(
         (event: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +48,7 @@ const StudentForm: React.FC = () => {
             localStorage.setItem("student", JSON.stringify(formData));
             router.push("/");
         },
-        [formData]
+        [formData, router]
     );
 
     return (
@@ -57,10 +56,13 @@ const StudentForm: React.FC = () => {
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
-                    <img
+                    <Image
                         className="w-full"
                         src={formData.avatar}
-                        alt="Card image"
+                        alt="Avatar"
+                        width={400}
+                        height={400}
+                        layout="responsive"
                     />
                     <form onSubmit={handleSubmit}>
                         <TextField
