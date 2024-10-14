@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useEffect} from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
 
@@ -9,7 +9,7 @@ interface IFormData {
     surname: string;
     year: string;
     portfolio: string;
-    avatar?: string;
+    avatar: string;
 }
 
 const StudentForm: React.FC = () => {
@@ -17,41 +17,60 @@ const StudentForm: React.FC = () => {
         name: "",
         surname: "",
         year: "",
-        portfolio: ""
+        portfolio: "",
+        avatar: ""
     });
     const router = useRouter();
 
     useEffect(() => {
         const studentDataString = localStorage.getItem("student");
         if (studentDataString) setFormData(JSON.parse(studentDataString));
+        console.log("formData: ", formData);
+        console.log("studentDataString: ", studentDataString);
     }, []);
 
-    const handleChange = ({
-        target: { name, value }
-    }: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((prevState) => ({ ...prevState, [name]: value }));
+    const handleChange = useCallback(
+        ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
+            setFormData((prevState) => ({ ...prevState, [name]: value }));
+        },
+        []
+    );
+
+    const generateAvatarUrl = (): void => {
+        const seed = Math.random().toString(36).substring(2, 10);
+        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
+        setFormData((prevState) => ({ ...prevState, avatar: avatarUrl }));
     };
 
-    const generateAvatarUrl = (): string => {
-        const seed = Math.random().toString(36).substring(2, 10); // Убираем "1."
-        return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
-    };
-
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(formData);
-        const student = {...formData, avatar: formData.avatar || generateAvatarUrl()}
-        localStorage.setItem("student", JSON.stringify(student));
-        router.push("/");
-    };
+    const handleSubmit = useCallback(
+        (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault();
+            console.log(formData);
+            localStorage.setItem("student", JSON.stringify(formData));
+            router.push("/");
+        },
+        [formData]
+    );
 
     return (
         <div className="container mx-auto mt-5">
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
+                    <img
+                        className="w-full"
+                        src={formData.avatar}
+                        alt="Card image"
+                    />
                     <form onSubmit={handleSubmit}>
+                        <TextField
+                            name="avatar"
+                            label="Student avatar"
+                            value={formData.avatar}
+                            onChange={handleChange}
+                            onChangeAvatar={generateAvatarUrl}
+                            error="test"
+                        />
                         <TextField
                             name="name"
                             label="Student name"
@@ -59,6 +78,7 @@ const StudentForm: React.FC = () => {
                             onChange={handleChange}
                             error="test"
                         />
+
                         <TextField
                             name="surname"
                             label="Student surname"
@@ -81,7 +101,9 @@ const StudentForm: React.FC = () => {
                             error="test"
                         />
 
-                        <button className="text-blue-500">Save</button>
+                        <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                            Save
+                        </button>
                     </form>
                 </div>
             </div>

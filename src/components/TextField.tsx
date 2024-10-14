@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
 
 interface TextFieldProps {
     name: string;
@@ -6,6 +8,7 @@ interface TextFieldProps {
     value: string;
     error?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onChangeAvatar?: () => void;
 }
 
 const TextField: React.FC<TextFieldProps> = ({
@@ -13,10 +16,48 @@ const TextField: React.FC<TextFieldProps> = ({
     label,
     value,
     error,
-    onChange
+    onChange,
+    onChangeAvatar
 }) => {
+    const getInputClasses = (error?: string) =>
+        `border rounded-md p-2 w-full ${
+            error ? "border-red-500" : "border-gray-300"
+        } focus:outline-none focus:ring-2 focus:ring-blue-500`;
+
     return (
         <div className="mb-4">
+            <label
+                htmlFor={name}
+                className="block text-sm font-medium text-gray-700"
+            >
+                {label}
+            </label>
+            <div className="relative">
+                <input
+                    type="text"
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className={getInputClasses(error)}
+                />
+                {name === "avatar" && (
+                    <button
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500"
+                        type="button"
+                        onClick={onChangeAvatar}
+                    >
+                        <FontAwesomeIcon icon={faRedo} />
+                    </button>
+                )}
+
+                {error && (
+                    <div className="text-red-500 mt-2 text-sm">{error}</div>
+                )}
+            </div>
+        </div>
+
+        /* <div className="mb-4">
             <label
                 htmlFor="name"
                 className="block text-sm font-medium text-gray-700"
@@ -38,7 +79,7 @@ const TextField: React.FC<TextFieldProps> = ({
                     <div className="mt-2 text-sm text-red-600">{error}</div>
                 )}
             </div>
-        </div>
+        </div> */
     );
 };
 
