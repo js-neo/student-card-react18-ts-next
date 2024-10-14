@@ -16,7 +16,8 @@ const StudentCard: React.FC = () => {
         name = "Not name",
         surname = "Not surname",
         year = "Not year",
-        portfolio = "Not portfolio"
+        portfolio = "Not portfolio",
+        avatar = "Not avatar",
     } = studentData;
 
     return (
@@ -25,7 +26,7 @@ const StudentCard: React.FC = () => {
                 <div className="max-w-sm rounded overflow-hidden shadow-lg">
                     <img
                         className="w-full"
-                        src="https://via.placeholder.com/400"
+                        src={avatar}
                         alt="Card image"
                     />
                     <div className="px-6 py-4">

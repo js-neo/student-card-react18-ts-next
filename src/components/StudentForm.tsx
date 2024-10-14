@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, {useEffect} from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
 
@@ -9,33 +9,40 @@ interface IFormData {
     surname: string;
     year: string;
     portfolio: string;
+    avatar?: string;
 }
 
 const StudentForm: React.FC = () => {
-    const studentDataString = localStorage.getItem("student");
-
-    const studentData = studentDataString
-        ? JSON.parse(studentDataString)
-        : {
-              name: "",
-              surname: "",
-              year: "",
-              portfolio: ""
-          };
-
-    const [formData, setFormData] = React.useState<IFormData>(studentData);
-
+    const [formData, setFormData] = React.useState<IFormData>({
+        name: "",
+        surname: "",
+        year: "",
+        portfolio: ""
+    });
     const router = useRouter();
+
+    useEffect(() => {
+        const studentDataString = localStorage.getItem("student");
+        if (studentDataString) setFormData(JSON.parse(studentDataString));
+    }, []);
 
     const handleChange = ({
         target: { name, value }
     }: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({ ...prevState, [name]: value }));
     };
+
+    const generateAvatarUrl = (): string => {
+        const seed = Math.random().toString(36).substring(2, 10); // Убираем "1."
+        return `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}`;
+    };
+
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         console.log(formData);
-        localStorage.setItem("student", JSON.stringify(formData));
+        const student = {...formData, avatar: formData.avatar || generateAvatarUrl()}
+        localStorage.setItem("student", JSON.stringify(student));
         router.push("/");
     };
 
