@@ -17,18 +17,14 @@ const StudentCard: React.FC = () => {
         surname = "Not surname",
         year = "Not year",
         portfolio = "Not portfolio",
-        avatar = "Not avatar",
+        avatar = "https://via.placeholder.com/400"
     } = studentData;
 
     return (
         <div className="container mx-auto my-3">
             <div className="flex justify-center">
                 <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                    <img
-                        className="w-full"
-                        src={avatar}
-                        alt="Card image"
-                    />
+                    <img className="w-full" src={avatar} alt="Card image" />
                     <div className="px-6 py-4">
                         <div className="font-bold text-xl mb-2">{`${name} ${surname}`}</div>
                         <p className="text-gray-700 text-base">{year}</p>

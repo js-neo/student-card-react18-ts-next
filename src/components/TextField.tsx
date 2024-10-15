@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import IconCache from "./IconCache";
 
 interface TextFieldProps {
     name: string;
@@ -19,10 +18,10 @@ const TextField: React.FC<TextFieldProps> = ({
     onChange,
     onChangeAvatar
 }) => {
-    const getInputClasses = (error?: string) =>
-        `border rounded-md p-2 w-full ${
+    const getInputClasses = () =>
+        `border rounded-l-md p-2 w-full ${
             error ? "border-red-500" : "border-gray-300"
-        } focus:outline-none focus:ring-2 focus:ring-blue-500`;
+        } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-l-md`;
 
     return (
         <div className="mb-4">
@@ -32,31 +31,26 @@ const TextField: React.FC<TextFieldProps> = ({
             >
                 {label}
             </label>
-            <div className="relative">
-                <div className="flex items-center">
-                    <input
-                        type="text"
-                        id={name}
-                        name={name}
-                        value={value}
-                        onChange={onChange}
-                        className={getInputClasses(error) + " pr-10"}
-                    />
-                    {name === "avatar" && (
-                        <button
-                            className="absolute inset-y-0 right-0 flex items-center justify-center w-12 h-10 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none"
-                            type="button"
-                            onClick={onChangeAvatar}
-                        >
-                            <FontAwesomeIcon icon={faRedo} />
-                        </button>
-                    )}
-                </div>
-
-                {error && (
-                    <div className="text-red-500 mt-2 text-sm">{error}</div>
+            <div className="flex items-center">
+                <input
+                    type="text"
+                    id={name}
+                    name={name}
+                    value={value}
+                    onChange={onChange}
+                    className={getInputClasses()}
+                />
+                {onChangeAvatar && (
+                    <button
+                        className="bg-gray-200 border border-gray-300 text-gray-700 hover:bg-gray-300 rounded-r-md p-3 flex items-center"
+                        type="button"
+                        onClick={onChangeAvatar}
+                    >
+                        <IconCache />
+                    </button>
                 )}
             </div>
+            {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
         </div>
     );
 };

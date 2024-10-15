@@ -19,7 +19,7 @@ const StudentForm: React.FC = () => {
         surname: "",
         year: "",
         portfolio: "",
-        avatar: ""
+        avatar: "https://via.placeholder.com/400"
     });
     const router = useRouter();
 
