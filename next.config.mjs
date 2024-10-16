@@ -1,9 +1,18 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['api.dicebear.com', 'via.placeholder.com'],
-        dangerouslyAllowSVG: true,
-    },
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "api.dicebear.com"
+            },
+            {
+                protocol: "https",
+                hostname: "via.placeholder.com"
+            }
+        ],
+        dangerouslyAllowSVG: true
+    }
 };
 
 export default nextConfig;

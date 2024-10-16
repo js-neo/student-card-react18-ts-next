@@ -58,16 +58,14 @@ const StudentForm: React.FC = () => {
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
-                    <div className="relative w-full h-0 pb-[100%]">
-                        <Image
-                            className="absolute top-0 left-0 w-full h-full object-cover"
-                            src={formData.avatar}
-                            alt="Avatar"
-                            width={400}
-                            height={400}
-                            priority
-                        />
-                    </div>
+                    <Image
+                        src={formData.avatar}
+                        alt="Avatar"
+                        width={400}
+                        height={400}
+                        priority={true}
+                        className="w-full h-auto"
+                    />
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name="avatar"

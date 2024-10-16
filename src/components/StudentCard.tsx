@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import _ from "lodash";
+import Image from "next/image";
 
-// Определяем интерфейс для данных студента
 interface StudentData {
     name: string;
     surname: string;
@@ -27,7 +26,7 @@ const StudentCard: React.FC = () => {
         router.push("/edit");
     };
 
-    if (!studentData || _.isEmpty(studentData)) {
+    if (!studentData) {
         return (
             <div className="container mx-auto my-3 min-h-screen flex items-center justify-center">
                 <div className="max-w-sm rounded overflow-hidden shadow-lg">
@@ -47,7 +46,15 @@ const StudentCard: React.FC = () => {
     return (
         <div className="container mx-auto my-3 min-h-screen flex items-center justify-center">
             <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                <img className="w-full" src={avatar} alt="Card image" />
+                <Image
+                    src={avatar}
+                    alt="Avatar"
+                    width={400}
+                    height={400}
+                    priority={true}
+                    className="w-full h-auto"
+                />
+
                 <div className="px-6 py-4">
                     <div className="font-bold text-xl mb-2">{`${name} ${surname}`}</div>
                     <p className="text-gray-700 text-base">{year}</p>

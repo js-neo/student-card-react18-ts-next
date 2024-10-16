@@ -1,6 +1,5 @@
 import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRedo } from "@fortawesome/free-solid-svg-icons";
+import IconCache from "@/components/IconCache";
 
 interface TextFieldProps {
     name: string;
@@ -19,6 +18,7 @@ const TextField: React.FC<TextFieldProps> = ({
     onChange,
     onChangeAvatar
 }) => {
+    console.log("Test client component");
     const getInputClasses = () =>
         `border rounded-l-md p-2 w-full ${
             error ? "border-red-500" : "border-gray-300"
@@ -38,6 +38,7 @@ const TextField: React.FC<TextFieldProps> = ({
                     id={name}
                     name={name}
                     value={value}
+                    placeholder={`enter ${label.toLowerCase()}`}
                     onChange={onChange}
                     className={getInputClasses()}
                 />
@@ -47,7 +48,7 @@ const TextField: React.FC<TextFieldProps> = ({
                         type="button"
                         onClick={onChangeAvatar}
                     >
-                        <FontAwesomeIcon icon={faRedo} />
+                        <IconCache />
                     </button>
                 )}
             </div>
