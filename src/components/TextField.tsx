@@ -1,5 +1,6 @@
 import React from "react";
-import IconCache from "./IconCache";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedo } from "@fortawesome/free-solid-svg-icons";
 
 interface TextFieldProps {
     name: string;
@@ -46,7 +47,7 @@ const TextField: React.FC<TextFieldProps> = ({
                         type="button"
                         onClick={onChangeAvatar}
                     >
-                        <IconCache />
+                        <FontAwesomeIcon icon={faRedo} />
                     </button>
                 )}
             </div>

@@ -25,7 +25,9 @@ const StudentForm: React.FC = () => {
 
     useEffect(() => {
         const studentDataString = localStorage.getItem("student");
-        if (studentDataString) setFormData(JSON.parse(studentDataString));
+        if (studentDataString) {
+            setFormData(JSON.parse(studentDataString));
+        }
     }, []);
 
     const handleChange = useCallback(
@@ -56,14 +58,16 @@ const StudentForm: React.FC = () => {
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
-                    <Image
-                        className="w-full"
-                        src={formData.avatar}
-                        alt="Avatar"
-                        width={400}
-                        height={400}
-                        layout="responsive"
-                    />
+                    <div className="relative w-full h-0 pb-[100%]">
+                        <Image
+                            className="absolute top-0 left-0 w-full h-full object-cover"
+                            src={formData.avatar}
+                            alt="Avatar"
+                            width={400}
+                            height={400}
+                            priority
+                        />
+                    </div>
                     <form onSubmit={handleSubmit}>
                         <TextField
                             name="avatar"
@@ -80,7 +84,6 @@ const StudentForm: React.FC = () => {
                             onChange={handleChange}
                             error="test"
                         />
-
                         <TextField
                             name="surname"
                             label="Student surname"
@@ -102,7 +105,6 @@ const StudentForm: React.FC = () => {
                             onChange={handleChange}
                             error="test"
                         />
-
                         <button className="bg-blue-500 text-white py-2 px-4 rounded">
                             Save
                         </button>
