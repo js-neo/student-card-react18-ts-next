@@ -18,8 +18,7 @@ const TextField: React.FC<TextFieldProps> = ({
     onChange,
     onChangeAvatar
 }) => {
-    console.log("Test client component");
-    const getInputClasses = () =>
+    const getInputClasses = (): string =>
         `border rounded-l-md p-2 w-full ${
             error ? "border-red-500" : "border-gray-300"
         } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-l-md`;

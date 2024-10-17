@@ -44,9 +44,8 @@ const StudentForm: React.FC = () => {
     }, []);
 
     const handleSubmit = useCallback(
-        (event: React.FormEvent<HTMLFormElement>) => {
+        (event: React.FormEvent<HTMLFormElement>): void => {
             event.preventDefault();
-            console.log(formData);
             localStorage.setItem("student", JSON.stringify(formData));
             router.push("/");
         },
