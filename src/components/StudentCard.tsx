@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-interface StudentData {
+export interface StudentData {
     name: string;
     surname: string;
     year: string;

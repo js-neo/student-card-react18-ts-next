@@ -4,6 +4,8 @@ import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
 import Image from "next/image";
+import { validator } from "@/utils/validator";
+import _ from "lodash";
 
 interface IFormData {
     name: string;
@@ -13,6 +15,8 @@ interface IFormData {
     avatar: string;
 }
 
+type IErrors = Partial<Record<keyof IFormData, string>>;
+
 const StudentForm: React.FC = () => {
     const [formData, setFormData] = React.useState<IFormData>({
         name: "",
@@ -21,6 +25,7 @@ const StudentForm: React.FC = () => {
         portfolio: "",
         avatar: "https://via.placeholder.com/400"
     });
+    const [errors, setErrors] = React.useState<IErrors>({});
     const router = useRouter();
 
     useEffect(() => {
@@ -29,6 +34,42 @@ const StudentForm: React.FC = () => {
             setFormData(JSON.parse(studentDataString));
         }
     }, []);
+
+    useEffect(() => {
+        validate();
+    }, [formData]);
+
+    const validateConfig = {
+        name: {
+            isRequired: {
+                message: "Field is required"
+            }
+        },
+        surname: {
+            isRequired: {
+                message: "Field is required"
+            }
+        },
+        year: {
+            isRequired: {
+                message: "Field is required"
+            }
+        },
+        portfolio: {
+            isRequired: {
+                message: "Field is required"
+            }
+        },
+        avatar: {}
+    };
+
+    const isValid = _.isEmpty(errors);
+
+    const validate = () => {
+        const errors = validator(formData, validateConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
 
     const handleChange = useCallback(
         ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +89,9 @@ const StudentForm: React.FC = () => {
             event.preventDefault();
             localStorage.setItem("student", JSON.stringify(formData));
             router.push("/");
+            const isValid = validate();
+            if (!isValid) return;
+            console.log("formData: ", formData);
         },
         [formData, router]
     );
@@ -102,7 +146,10 @@ const StudentForm: React.FC = () => {
                             onChange={handleChange}
                             error="test"
                         />
-                        <button className="bg-blue-500 text-white py-2 px-4 rounded">
+                        <button
+                            className="bg-blue-500 text-white py-2 px-4 rounded"
+                            disabled={isValid}
+                        >
                             Save
                         </button>
                     </form>
