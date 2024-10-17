@@ -47,22 +47,26 @@ const StudentCard: React.FC = () => {
         new Date().getFullYear() - Number(year);
 
     const getAgeDeclension = (age: number): string => {
-        const yearDeclensions = [
-            "лет",
-            "год",
-            "года",
-            "года",
-            "года",
-            "лет",
-            "лет",
-            "лет",
-            "лет",
-            "лет"
-        ];
-        const strAge = String(age);
-        const lastChar = strAge.at(-1);
-        const declensionsIndex = strAge.at(-2) === "1" ? 0 : Number(lastChar);
-        return yearDeclensions[declensionsIndex];
+        const yearDeclensions = ["лет", "год", "года"];
+        const lastDigit = age % 10;
+        const lastTwoDigits = age % 100;
+        let declension = yearDeclensions[0];
+
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+            return declension;
+        }
+
+        switch (lastDigit) {
+            case 1:
+                declension = yearDeclensions[1];
+                break;
+            case 2:
+            case 3:
+            case 4:
+                declension = yearDeclensions[2];
+                break;
+        }
+        return declension;
     };
 
     return (
