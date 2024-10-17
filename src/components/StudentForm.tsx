@@ -84,7 +84,6 @@ const StudentForm: React.FC = () => {
             setTimeout(() => {
                 localStorage.setItem("student", JSON.stringify(formData));
                 setSuccessMessage("Data saved successfully!");
-                window.scrollTo({ top: 0, behavior: "smooth" });
 
                 setTimeout(() => {
                     setIsLoading(false);
@@ -102,9 +101,15 @@ const StudentForm: React.FC = () => {
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
-                    {isLoading && <p>Loading...</p>}
+                    {isLoading && (
+                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-500 text-white p-4 rounded shadow-lg">
+                            Loading...
+                        </div>
+                    )}
                     {successMessage && (
-                        <p className="text-green-500">{successMessage}</p>
+                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg">
+                            {successMessage}
+                        </div>
                     )}
                     <Image
                         src={formData.avatar}
