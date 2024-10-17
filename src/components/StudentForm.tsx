@@ -116,39 +116,39 @@ const StudentForm: React.FC = () => {
                             value={formData.avatar}
                             onChange={handleChange}
                             onChangeAvatar={generateAvatarUrl}
-                            error="test"
+                            error={errors.avatar}
                         />
                         <TextField
                             name="name"
                             label="Student name"
                             value={formData.name}
                             onChange={handleChange}
-                            error="test"
+                            error={errors.name}
                         />
                         <TextField
                             name="surname"
                             label="Student surname"
                             value={formData.surname}
                             onChange={handleChange}
-                            error="test"
+                            error={errors.surname}
                         />
                         <TextField
                             name="year"
                             label="Student year"
                             value={formData.year}
                             onChange={handleChange}
-                            error="test"
+                            error={errors.year}
                         />
                         <TextField
                             name="portfolio"
                             label="Student portfolio"
                             value={formData.portfolio}
                             onChange={handleChange}
-                            error="test"
+                            error={errors.portfolio}
                         />
                         <button
                             className="bg-blue-500 text-white py-2 px-4 rounded"
-                            disabled={isValid}
+                            disabled={!isValid}
                         >
                             Save
                         </button>
