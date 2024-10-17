@@ -46,18 +46,23 @@ const StudentCard: React.FC = () => {
     const calculateAge = (year: string): number =>
         new Date().getFullYear() - Number(year);
 
-    const getEnding = (age: number): string => {
-        const exceptions = ["2", "3", "4"];
+    const getAgeDeclension = (age: number): string => {
+        const yearDeclensions = [
+            "лет",
+            "год",
+            "года",
+            "года",
+            "года",
+            "лет",
+            "лет",
+            "лет",
+            "лет",
+            "лет"
+        ];
         const strAge = String(age);
         const lastChar = strAge.at(-1);
-        if (lastChar === "1") {
-            return "год";
-        }
-        if (lastChar && exceptions.includes(lastChar)) {
-            return "года";
-        }
-
-        return "лет";
+        const declensionsIndex = strAge.at(-2) === "1" ? 0 : Number(lastChar);
+        return yearDeclensions[declensionsIndex];
     };
 
     return (
@@ -82,7 +87,7 @@ const StudentCard: React.FC = () => {
                         <p className="flex space-x-2">
                             <span className="font-bold">Age:</span>
                             <span className="font-mono">
-                                {`${calculateAge(year)} ${getEnding(calculateAge(year))}`}
+                                {`${calculateAge(year)} ${getAgeDeclension(calculateAge(year))}`}
                             </span>
                         </p>
                         <p className="flex space-x-2">
