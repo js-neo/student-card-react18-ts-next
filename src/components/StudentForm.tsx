@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import TextField from "@/components/TextField";
 import Image from "next/image";
@@ -18,14 +18,16 @@ interface IFormData {
 type IErrors = Partial<Record<keyof IFormData, string>>;
 
 const StudentForm: React.FC = () => {
-    const [formData, setFormData] = React.useState<IFormData>({
+    const [formData, setFormData] = useState<IFormData>({
         name: "",
         surname: "",
         year: "",
         portfolio: "",
         avatar: "https://via.placeholder.com/400"
     });
-    const [errors, setErrors] = React.useState<IErrors>({});
+    const [errors, setErrors] = useState<IErrors>({});
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -35,41 +37,16 @@ const StudentForm: React.FC = () => {
         }
     }, []);
 
-    useEffect(() => {
-        validate();
-    }, [formData]);
-
-    const validateConfig = {
-        name: {
-            isRequired: {
-                message: "Field is required"
-            }
-        },
-        surname: {
-            isRequired: {
-                message: "Field is required"
-            }
-        },
-        year: {
-            isRequired: {
-                message: "Field is required"
-            }
-        },
-        portfolio: {
-            isRequired: {
-                message: "Field is required"
-            }
-        },
-        avatar: {}
-    };
-
-    const isValid = _.isEmpty(errors);
-
-    const validate = () => {
-        const errors = validator(formData, validateConfig);
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
+    const validateConfig = useMemo(
+        () => ({
+            name: { isRequired: { message: "Field is required" } },
+            surname: { isRequired: { message: "Field is required" } },
+            year: { isRequired: { message: "Field is required" } },
+            portfolio: { isRequired: { message: "Field is required" } },
+            avatar: {}
+        }),
+        []
+    );
 
     const handleChange = useCallback(
         ({ target: { name, value } }: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,23 +61,51 @@ const StudentForm: React.FC = () => {
         setFormData((prevState) => ({ ...prevState, avatar: avatarUrl }));
     }, []);
 
+    const validate = useCallback(() => {
+        const errors = validator(formData, validateConfig);
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    }, [formData, validateConfig]);
+
+    useEffect(() => {
+        validate();
+    }, [formData, validate]);
+
     const handleSubmit = useCallback(
         (event: React.FormEvent<HTMLFormElement>): void => {
+            setIsLoading(true);
+            setSuccessMessage(null);
             event.preventDefault();
-            localStorage.setItem("student", JSON.stringify(formData));
-            router.push("/");
             const isValid = validate();
-            if (!isValid) return;
-            console.log("formData: ", formData);
+            if (!isValid) {
+                setIsLoading(false);
+                return;
+            }
+            setTimeout(() => {
+                localStorage.setItem("student", JSON.stringify(formData));
+                setSuccessMessage("Data saved successfully!");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                    router.push("/");
+                }, 2000);
+            }, 1000);
         },
-        [formData, router]
+        [formData, router, validate]
     );
+
+    const isValid = _.isEmpty(errors);
 
     return (
         <div className="container mx-auto mt-5">
             <div className="flex justify-center">
                 <div className="w-full max-w-md shadow-lg p-6">
                     <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
+                    {isLoading && <p>Loading...</p>}
+                    {successMessage && (
+                        <p className="text-green-500">{successMessage}</p>
+                    )}
                     <Image
                         src={formData.avatar}
                         alt="Avatar"
@@ -148,9 +153,9 @@ const StudentForm: React.FC = () => {
                         />
                         <button
                             className="bg-blue-500 text-white py-2 px-4 rounded"
-                            disabled={!isValid}
+                            disabled={!isValid || isLoading}
                         >
-                            Save
+                            {isLoading ? "Saved..." : "Save"}
                         </button>
                     </form>
                 </div>
