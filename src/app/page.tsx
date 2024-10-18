@@ -1,11 +1,14 @@
 import React from "react";
 import StudentCard from "@/components/StudentCard";
+import MotionWrapper from "@/components/MotionWrapper";
 
 const HomePage: React.FC = () => {
     return (
-        <div className="container mx-auto p-4">
-            <StudentCard />
-        </div>
+        <MotionWrapper>
+            <div className="container mx-auto p-4">
+                <StudentCard />
+            </div>
+        </MotionWrapper>
     );
 };
 

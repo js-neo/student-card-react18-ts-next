@@ -38,11 +38,21 @@ const StudentForm: React.FC = () => {
         }
     }, []);
 
+    const minYear = 1950;
+    const maxYear = 2014;
+
     const validateConfig = useMemo(
         () => ({
             name: { isRequired: { message: "Field is required" } },
             surname: { isRequired: { message: "Field is required" } },
-            year: { isRequired: { message: "Field is required" } },
+            year: {
+                isRequired: { message: "Field is required" },
+                isYearInRange: {
+                    message: `Year must be between ${minYear} and ${maxYear}.`,
+                    min: minYear,
+                    max: maxYear
+                }
+            },
             portfolio: { isRequired: { message: "Field is required" } },
             avatar: {
                 isNotPlaceholderAvatarUrl: {
@@ -80,6 +90,7 @@ const StudentForm: React.FC = () => {
         (event: React.FormEvent<HTMLFormElement>): void => {
             setIsLoading(true);
             setSuccessMessage(null);
+            setErrorMessage(null); // Сброс сообщения об ошибке
             event.preventDefault();
             const isValid = validate();
             if (!isValid) {
@@ -92,19 +103,37 @@ const StudentForm: React.FC = () => {
                     setSuccessMessage("Data saved successfully!");
                 } catch (error) {
                     console.error("Error saving data: ", error);
-                    setErrorMessage("Failed to save data. ");
+                    setErrorMessage("Failed to save data.");
                 }
 
                 setTimeout(() => {
                     setIsLoading(false);
                     router.push("/");
-                }, 2000);
-            }, 2000);
+                }, 3000);
+            }, 1000);
         },
         [formData, router, validate]
     );
 
     const isValid = _.isEmpty(errors);
+
+    useEffect(() => {
+        if (successMessage) {
+            const timer = setTimeout(() => {
+                setSuccessMessage(null);
+            }, 3000); // Скрыть через 4 секунды
+            return () => clearTimeout(timer);
+        }
+    }, [successMessage]);
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => {
+                setErrorMessage(null);
+            }, 3000); // Скрыть через 4 секунды
+            return () => clearTimeout(timer);
+        }
+    }, [errorMessage]);
 
     return (
         <div className="container mx-auto mt-5">
@@ -137,12 +166,12 @@ const StudentForm: React.FC = () => {
                         </div>
                     )}
                     {successMessage && (
-                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg">
+                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn">
                             {successMessage}
                         </div>
                     )}
                     {errorMessage && (
-                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg transition-opacity duration-500 ease-in-out opacity-100">
+                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn">
                             {errorMessage}
                         </div>
                     )}
@@ -200,8 +229,32 @@ const StudentForm: React.FC = () => {
                     </form>
                 </div>
             </div>
+            <style jsx>{`
+                @keyframes fadeIn {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+
+                @keyframes fadeOut {
+                    from {
+                        opacity: 1;
+                    }
+                    to {
+                        opacity: 0;
+                    }
+                }
+
+                .animate-fadeIn {
+                    animation:
+                        fadeIn 1.5s forwards,
+                        fadeOut 1.5s forwards 2s;
+                }
+            `}</style>
         </div>
     );
 };
-
 export default StudentForm;

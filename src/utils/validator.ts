@@ -2,7 +2,8 @@ import { StudentData } from "@/components/StudentCard";
 
 interface IValidationOptions {
     message: string;
-    value?: number;
+    min?: number;
+    max?: number;
 }
 
 type ValidationConfig = {
@@ -31,6 +32,17 @@ export function validator(data: StudentData, config: ValidationConfig) {
         isNotPlaceholderAvatarUrl: (data: string, { message }) => {
             const placeholderUrl = "https://via.placeholder.com/400";
             if (data === placeholderUrl) return message;
+        },
+        isYearInRange: (
+            data: string,
+            { message, min, max }: IValidationOptions
+        ) => {
+            const year = Number(data);
+            if (min !== undefined && max !== undefined) {
+                if (year < min || year > max) {
+                    return message;
+                }
+            }
         }
     };
 

@@ -3,8 +3,11 @@ import IconCache from "@/components/IconCache";
 
 interface TextFieldProps {
     name: string;
+    type?: string;
     label: string;
     value: string;
+    min?: number;
+    max?: number;
     error?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     onChangeAvatar?: () => void;
@@ -12,8 +15,11 @@ interface TextFieldProps {
 
 const TextField: React.FC<TextFieldProps> = ({
     name,
+    type = "text",
     label,
     value,
+    min,
+    max,
     error,
     onChange,
     onChangeAvatar
@@ -33,10 +39,12 @@ const TextField: React.FC<TextFieldProps> = ({
             </label>
             <div className="flex items-center">
                 <input
-                    type="text"
+                    type={type}
                     id={name}
                     name={name}
                     value={value}
+                    min={min}
+                    max={max}
                     placeholder={`enter ${label.toLowerCase()}`}
                     onChange={onChange}
                     className={getInputClasses()}
