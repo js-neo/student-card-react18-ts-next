@@ -27,6 +27,10 @@ export function validator(data: StudentData, config: ValidationConfig) {
     const validate: ValidateMethod = {
         isRequired: (data, { message }) => {
             if (data.trim() === "") return message;
+        },
+        isNotPlaceholderAvatarUrl: (data: string, { message }) => {
+            const placeholderUrl = "https://via.placeholder.com/400";
+            if (data === placeholderUrl) return message;
         }
     };
 
