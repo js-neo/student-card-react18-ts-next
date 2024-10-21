@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import styles from "./StudentCard.module.css";
 
 export interface StudentData {
     name: string;
@@ -15,25 +16,62 @@ export interface StudentData {
 const StudentCard: React.FC = () => {
     const router = useRouter();
     const [studentData, setStudentData] = useState<StudentData | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const studentDataString = localStorage.getItem("student");
-        const data = studentDataString ? JSON.parse(studentDataString) : null;
-        setStudentData(data);
+        const timer = setTimeout(async () => {
+            try {
+                const studentDataString = localStorage.getItem("student");
+                const data = studentDataString
+                    ? JSON.parse(studentDataString)
+                    : null;
+                setStudentData(data);
+            } catch (error) {
+                console.error(`Error saving data: ${error}`);
+            } finally {
+                setIsLoading(false);
+            }
+        }, 3000);
+        return () => clearTimeout(timer);
     }, []);
 
     const handleButton = () => {
         router.push("/edit");
     };
 
+    if (isLoading) {
+        return (
+            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center">
+                <svg
+                    className="animate-spin h-5 w-5 mr-3"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                >
+                    <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                    ></circle>
+                    <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z"
+                    ></path>
+                </svg>
+                Loading...
+            </div>
+        );
+    }
+
     if (!studentData) {
         return (
-            <div className="container mx-auto my-3 min-h-screen flex items-center justify-center">
-                <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                    <button
-                        onClick={handleButton}
-                        className="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mt-3"
-                    >
+            <div className={styles.container}>
+                <div className={styles.card}>
+                    <button onClick={handleButton} className={styles.button}>
                         Create Card
                     </button>
                 </div>
@@ -70,38 +108,38 @@ const StudentCard: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto my-3 min-h-screen flex items-center justify-center">
-            <div className="max-w-sm rounded overflow-hidden shadow-lg">
+        <div className={styles.container}>
+            <div className={styles.card}>
                 <Image
                     src={avatar}
                     alt="Avatar"
                     width={400}
                     height={400}
                     priority={true}
-                    className="w-full h-auto"
+                    className={styles.avatar}
                 />
 
                 <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2">{`${name} ${surname}`}</div>
-                    <div className="text-gray-700 text-base">
-                        <p className="flex space-x-2">
+                    <div className={styles.name}>{`${name} ${surname}`}</div>
+                    <div className={styles["box-info"]}>
+                        <p className={styles["row-info"]}>
                             <span className="font-bold">Year of birth:</span>
                             <span className="font-mono">{year}</span>
                         </p>
-                        <p className="flex space-x-2">
+                        <p className={styles["row-info"]}>
                             <span className="font-bold">Age:</span>
                             <span className="font-mono">
                                 {`${calculateAge(year)} ${getAgeDeclension(calculateAge(year))}`}
                             </span>
                         </p>
-                        <p className="flex space-x-2">
+                        <p className={styles["row-info"]}>
                             <span className="font-bold">Portfolio:</span>
                             <span className="font-mono">{portfolio}</span>
                         </p>
                     </div>
-                    <div className="flex justify-end">
+                    <div className={styles.flexEnd}>
                         <button
-                            className="inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 mt-3"
+                            className={styles.button}
                             onClick={handleButton}
                         >
                             Edit

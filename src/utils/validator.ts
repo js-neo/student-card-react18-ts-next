@@ -1,4 +1,4 @@
-import { StudentData } from "@/components/StudentCard";
+import { StudentData } from "@/components/StudentCard/StudentCard";
 
 interface IValidationOptions {
     message: string;
