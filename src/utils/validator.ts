@@ -1,4 +1,4 @@
-import { StudentData } from "@/components/StudentCard/StudentCard";
+import { IStudentData } from "@/types";
 
 interface IValidationOptions {
     message: string;
@@ -7,7 +7,7 @@ interface IValidationOptions {
 }
 
 type ValidationConfig = {
-    [key in keyof StudentData]?: {
+    [key in keyof IStudentData]?: {
         [key: string]: IValidationOptions;
     };
 };
@@ -23,7 +23,7 @@ type ValidateMethod = {
     [key: string]: IValidator;
 };
 
-export function validator(data: StudentData, config: ValidationConfig) {
+export function validator(data: IStudentData, config: ValidationConfig) {
     const errors: Record<string, string> = {};
     const validate: ValidateMethod = {
         isRequired: (data, { message }) => {
@@ -47,7 +47,7 @@ export function validator(data: StudentData, config: ValidationConfig) {
     };
 
     for (const [fieldName, content] of Object.entries(data)) {
-        const validationOptions = config[fieldName as keyof StudentData];
+        const validationOptions = config[fieldName as keyof IStudentData];
         if (validationOptions) {
             for (const [validateMethod, options] of Object.entries(
                 validationOptions

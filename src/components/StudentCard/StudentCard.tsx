@@ -1,71 +1,21 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./StudentCard.module.css";
+import { IStudentData } from "@/types";
 
-export interface StudentData {
-    name: string;
-    surname: string;
-    year: string;
-    portfolio: string;
-    avatar: string;
+interface IStudentCardProps {
+    studentData: IStudentData | null;
 }
 
-const StudentCard: React.FC = () => {
+const StudentCard: React.FC<IStudentCardProps> = ({ studentData }) => {
     const router = useRouter();
-    const [studentData, setStudentData] = useState<StudentData | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    useEffect(() => {
-        const timer = setTimeout(async () => {
-            try {
-                const studentDataString = localStorage.getItem("student");
-                const data = studentDataString
-                    ? JSON.parse(studentDataString)
-                    : null;
-                setStudentData(data);
-            } catch (error) {
-                console.error(`Error saving data: ${error}`);
-            } finally {
-                setIsLoading(false);
-            }
-        }, 3000);
-        return () => clearTimeout(timer);
-    }, []);
 
     const handleButton = () => {
         router.push("/edit");
     };
-
-    if (isLoading) {
-        return (
-            <div className={styles["spinner-container"]}>
-                <svg
-                    className={styles.spinner}
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                >
-                    <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                    ></circle>
-                    <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z"
-                    ></path>
-                </svg>
-                Loading...
-            </div>
-        );
-    }
 
     if (!studentData) {
         return (
