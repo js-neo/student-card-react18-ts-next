@@ -6,6 +6,7 @@ import TextField from "@/components/TextField";
 import Image from "next/image";
 import { validator } from "@/utils/validator";
 import _ from "lodash";
+import styles from "./StudentForm.module.css";
 
 interface IFormData {
     name: string;
@@ -90,7 +91,7 @@ const StudentForm: React.FC = () => {
         (event: React.FormEvent<HTMLFormElement>): void => {
             setIsLoading(true);
             setSuccessMessage(null);
-            setErrorMessage(null); // Сброс сообщения об ошибке
+            setErrorMessage(null);
             event.preventDefault();
             const isValid = validate();
             if (!isValid) {
@@ -121,7 +122,7 @@ const StudentForm: React.FC = () => {
         if (successMessage) {
             const timer = setTimeout(() => {
                 setSuccessMessage(null);
-            }, 3000); // Скрыть через 4 секунды
+            }, 3000);
             return () => clearTimeout(timer);
         }
     }, [successMessage]);
@@ -130,20 +131,26 @@ const StudentForm: React.FC = () => {
         if (errorMessage) {
             const timer = setTimeout(() => {
                 setErrorMessage(null);
-            }, 3000); // Скрыть через 4 секунды
+            }, 3000);
             return () => clearTimeout(timer);
         }
     }, [errorMessage]);
 
     return (
-        <div className="container mx-auto mt-5">
-            <div className="flex justify-center">
-                <div className="w-full max-w-md shadow-lg p-6">
-                    <h3 className="mb-4 text-xl font-semibold">Student Form</h3>
+        <div className={styles["student-form"]}>
+            <div className={styles["student-form__flex-center"]}>
+                <div className={styles["student-form__box"]}>
+                    <h3 className={styles["student-form__title"]}>
+                        Student Form
+                    </h3>
                     {isLoading && (
-                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center">
+                        <div
+                            className={
+                                styles["student-form__spinner-container"]
+                            }
+                        >
                             <svg
-                                className="animate-spin h-5 w-5 mr-3"
+                                className={styles["student-form__spinner"]}
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -166,12 +173,14 @@ const StudentForm: React.FC = () => {
                         </div>
                     )}
                     {successMessage && (
-                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn">
+                        <div
+                            className={styles["student-form__success-message"]}
+                        >
                             {successMessage}
                         </div>
                     )}
                     {errorMessage && (
-                        <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn">
+                        <div className={styles["student-form__error-message"]}>
                             {errorMessage}
                         </div>
                     )}
@@ -181,7 +190,7 @@ const StudentForm: React.FC = () => {
                         width={400}
                         height={400}
                         priority={true}
-                        className="w-full h-auto"
+                        className={styles["student-form__avatar"]}
                     />
                     <form onSubmit={handleSubmit}>
                         <TextField
@@ -221,7 +230,7 @@ const StudentForm: React.FC = () => {
                             error={errors.portfolio}
                         />
                         <button
-                            className="bg-blue-500 text-white py-2 px-4 rounded"
+                            className={`${styles["student-form__button"]} ${isLoading ? styles["student-form__button--loading"] : ""}`}
                             disabled={!isValid || isLoading}
                         >
                             {isLoading ? "Saved..." : "Save"}
@@ -229,32 +238,8 @@ const StudentForm: React.FC = () => {
                     </form>
                 </div>
             </div>
-            <style jsx>{`
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                    }
-                    to {
-                        opacity: 1;
-                    }
-                }
-
-                @keyframes fadeOut {
-                    from {
-                        opacity: 1;
-                    }
-                    to {
-                        opacity: 0;
-                    }
-                }
-
-                .animate-fadeIn {
-                    animation:
-                        fadeIn 1.5s forwards,
-                        fadeOut 1.5s forwards 2s;
-                }
-            `}</style>
         </div>
     );
 };
+
 export default StudentForm;

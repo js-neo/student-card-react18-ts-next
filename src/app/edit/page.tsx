@@ -1,5 +1,5 @@
 import React from "react";
-import StudentForm from "@/components/StudentForm";
+import StudentForm from "@/components/StudentForm/StudentForm";
 import MotionWrapper from "@/components/MotionWrapper";
 
 const EditPage: React.FC = () => {

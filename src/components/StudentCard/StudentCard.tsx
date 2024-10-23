@@ -41,9 +41,9 @@ const StudentCard: React.FC = () => {
 
     if (isLoading) {
         return (
-            <div className="fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center">
+            <div className={styles["spinner-container"]}>
                 <svg
-                    className="animate-spin h-5 w-5 mr-3"
+                    className={styles.spinner}
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"

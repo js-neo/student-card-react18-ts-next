@@ -1,0 +1,67 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 1.5s forwards, fadeOut 1.5s forwards 2s;
+}
+
+.student-form {
+    @apply container mx-auto mt-5;
+}
+
+.student-form__flex-center {
+    @apply flex justify-center;
+}
+
+.student-form__box {
+    @apply w-full max-w-md shadow-lg p-6;
+}
+
+.student-form__title {
+    @apply mb-4 text-xl font-semibold;
+}
+
+.student-form__spinner-container {
+    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center;
+}
+
+.student-form__spinner {
+    @apply animate-spin h-5 w-5 mr-3;
+}
+
+.student-form__success-message {
+    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+}
+
+.student-form__error-message {
+    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+}
+
+.student-form__avatar {
+    @apply w-full h-auto;
+}
+
+
+.student-form__button {
+    @apply bg-blue-500 text-white font-semibold py-2 px-4 rounded;
+}
+
+.student-form__button--loading {
+    @apply bg-gray-500 cursor-not-allowed;
+}
+
