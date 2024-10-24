@@ -1,9 +1,15 @@
 import React from "react";
 import styles from "./LoadingSpinner.module.css";
 
-const LoadingSpinner: React.FC = () => {
+interface LoadingSpinnerProps {
+    position?: "absolute" | "fixed";
+}
+
+const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
+    position = "absolute"
+}) => {
     return (
-        <div className={styles["spinner-container"]}>
+        <div className={`${position} ${styles["spinner-container"]}`}>
             <svg
                 className={styles.spinner}
                 xmlns="http://www.w3.org/2000/svg"

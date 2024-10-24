@@ -1,5 +1,5 @@
 .spinner-container {
-    @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center;
+    @apply top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center;
 }
 
 

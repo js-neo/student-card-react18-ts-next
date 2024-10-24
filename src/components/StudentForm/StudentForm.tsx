@@ -7,6 +7,7 @@ import Image from "next/image";
 import { validator } from "@/utils/validator";
 import _ from "lodash";
 import styles from "./StudentForm.module.css";
+import LoadingSpinner from "@/components/LoadingSpinner/LoadingSpinner";
 
 interface IFormData {
     name: string;
@@ -143,35 +144,7 @@ const StudentForm: React.FC = () => {
                     <h3 className={styles["student-form__title"]}>
                         Student Form
                     </h3>
-                    {isLoading && (
-                        <div
-                            className={
-                                styles["student-form__spinner-container"]
-                            }
-                        >
-                            <svg
-                                className={styles["student-form__spinner"]}
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    className="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    strokeWidth="4"
-                                ></circle>
-                                <path
-                                    className="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8v2a6 6 0 100 12v2a8 8 0 01-8-8z"
-                                ></path>
-                            </svg>
-                            Loading...
-                        </div>
-                    )}
+                    {isLoading && <LoadingSpinner position="fixed" />}
                     {successMessage && (
                         <div
                             className={styles["student-form__success-message"]}

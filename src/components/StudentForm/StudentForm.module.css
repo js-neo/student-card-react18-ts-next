@@ -36,20 +36,12 @@
     @apply mb-4 text-xl font-semibold;
 }
 
-.student-form__spinner-container {
-    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-gray-600 text-white p-4 rounded shadow-lg flex items-center;
-}
-
-.student-form__spinner {
-    @apply animate-spin h-5 w-5 mr-3;
-}
-
 .student-form__success-message {
-    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn;
 }
 
 .student-form__error-message {
-    @apply fixed top-0 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn;
 }
 
 .student-form__avatar {
