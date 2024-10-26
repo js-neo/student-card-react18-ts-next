@@ -45,7 +45,7 @@
 }
 
 .student-form__avatar {
-    @apply w-full h-auto;
+    @apply w-full h-auto mb-4;
 }
 
 

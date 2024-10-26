@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import TextField from "@/components/TextField";
+import TextField from "@/components/TextField/TextField";
 import Image from "next/image";
 import { validator } from "@/utils/validator";
 import _ from "lodash";
@@ -206,7 +206,7 @@ const StudentForm: React.FC = () => {
                             error={errors.portfolio}
                         />
                         <button
-                            className={`${styles["student-form__button"]} ${isLoading ? styles["student-form__button--loading"] : ""}`}
+                            className={`${styles["student-form__button"]} ${isLoading || !isValid ? styles["student-form__button--loading"] : ""}`}
                             disabled={!isValid || isLoading}
                         >
                             {isLoading ? "Saved..." : "Save"}

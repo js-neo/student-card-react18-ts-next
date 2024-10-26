@@ -1,5 +1,6 @@
 import React from "react";
 import IconCache from "@/components/IconCache";
+import styles from "./TextField.module.css";
 
 interface TextFieldProps {
     name: string;
@@ -25,19 +26,18 @@ const TextField: React.FC<TextFieldProps> = ({
     onChangeAvatar
 }) => {
     const getInputClasses = (): string =>
-        `border rounded-l-md p-2 w-full ${
-            error ? "border-red-500" : "border-gray-300"
-        } focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-l-md`;
+        `${styles["text-field__input"]} ${
+            error
+                ? styles["text-field__input--error"]
+                : styles["text-field__input--default"]
+        }`;
 
     return (
-        <div className="mb-4">
-            <label
-                htmlFor={name}
-                className="block text-sm font-medium text-gray-700"
-            >
+        <div className={styles["text-field"]}>
+            <label htmlFor={name} className={styles["text-field__label"]}>
                 {label}
             </label>
-            <div className="flex items-center">
+            <div className={styles["text-field__box"]}>
                 <input
                     type={type}
                     id={name}
@@ -51,7 +51,7 @@ const TextField: React.FC<TextFieldProps> = ({
                 />
                 {onChangeAvatar && (
                     <button
-                        className="bg-gray-200 border border-gray-300 text-gray-700 hover:bg-gray-300 rounded-r-md p-3 flex items-center"
+                        className={styles["text-field__button"]}
                         type="button"
                         onClick={onChangeAvatar}
                     >
@@ -59,7 +59,11 @@ const TextField: React.FC<TextFieldProps> = ({
                     </button>
                 )}
             </div>
-            {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}
+            {error && (
+                <div className={styles["text-field__error-message"]}>
+                    {error}
+                </div>
+            )}
         </div>
     );
 };
