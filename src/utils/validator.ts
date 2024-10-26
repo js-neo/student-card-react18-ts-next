@@ -43,6 +43,11 @@ export function validator(data: IStudentData, config: ValidationConfig) {
                     return message;
                 }
             }
+        },
+        isValidURL: (data: string, { message }: IValidationOptions) => {
+            const urlRegex =
+                /^(https?:\/\/)?([a-z0-9-]+\.)+[a-z]{2,}(:\d+)?(\/\S*)?$/i;
+            if (!urlRegex.test(data)) return message;
         }
     };
 

@@ -37,11 +37,11 @@
 }
 
 .student-form__success-message {
-    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 mt-4 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white p-4 rounded shadow-lg animate-fadeIn;
 }
 
 .student-form__error-message {
-    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 mt-4 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn;
+    @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white p-4 rounded shadow-lg animate-fadeIn;
 }
 
 .student-form__avatar {
@@ -56,4 +56,3 @@
 .student-form__button--loading {
     @apply bg-gray-500 cursor-not-allowed;
 }
-

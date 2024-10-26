@@ -55,7 +55,10 @@ const StudentForm: React.FC = () => {
                     max: maxYear
                 }
             },
-            portfolio: { isRequired: { message: "Field is required" } },
+            portfolio: {
+                isRequired: { message: "Field is required" },
+                isValidURL: { message: "The provided input is not a valid URL" }
+            },
             avatar: {
                 isNotPlaceholderAvatarUrl: {
                     message: "Click the avatar selection button"
